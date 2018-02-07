@@ -1,6 +1,51 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
-{\fonttbl}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-}
+create procedure select_cheaper_epensive()
+BEGIN
+	declare cheaper varchar(70);
+    declare cheaperPrice varchar(70);
+    
+    declare expensive varchar(70);
+    declare expensivePrice varchar(70);
+    
+	select productName, buyPrice  into cheaper, cheaperPrice
+	from products
+	where buyPrice = 
+    (select min(buyPrice) from products);
+    
+	select productName, buyPrice  into expensive, expensivePrice
+	from products
+	where buyPrice = 
+    (select max(buyPrice) from products);
+    
+    select cheaper, cheaperPrice, expensive, expensivePrice;
+END$$
+
+
+
+create procedure count_customers_a(
+
+IN initial_char varchar(1)
+
+)
+
+BEGIN
+
+	declare contador int default 0;
+
+	select count(*)  into contador from customers where LEFT(customerName, 1) = initial_char;
+
+    select contador;
+
+END$$
+
+create procedure show_products(
+IN linea_producto varchar(50)
+)
+BEGIN
+	declare line varchar(50);
+    
+    set line = concat(linea_producto, "%");
+    
+	select * from products
+    where productLine like line;
+
+END$$
