@@ -1,0 +1,14 @@
+--realiza un cluster master to master
+--daniela anguiano a01169706
+
+docker network create cluster 
+Then we start the management node
+
+docker run -d 
+The two data nodes
+
+docker run -d 
+docker run -d 
+And finally the MySQL server node
+
+docker run -d 
