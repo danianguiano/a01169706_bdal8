@@ -1,0 +1,32 @@
+//Ejercicio Neo4j
+
+//Utilizando la base de datos Movies de ejemplo resuelve las siguientes
+//preguntas:
+
+//1. ¿Cuántos actores hay?
+match(p:Person)-[a:ACTED_IN]->(m:Movie) return p
+
+//2. ¿cuántos productores hay?
+match(p:Person)-[a:PRODUCED ]->(m:Movie) return p
+
+//3. ¿cuántos directores hay?
+match(p:Person)-[a:DIRECTED ]->(m:Movie) return p
+
+//4. ¿cuántas películas hay?
+match (m:Movie) return m
+
+//5. ¿Quién ha escrito más películas?
+match(p:Person)-[a:WROTE ]->(m:Movie) return max(p)
+
+//6. El top 5 de películas con el mejor Rating
+MATCH (p:Person)-[a:REVIEWED]->(m:Movie) RETURN distinct a.rating as ratings,m.title as title limit 5
+
+//7. ¿Qué personas debería conocer Al Pacino para que le presentaran a
+//Audrey Tautou?
+MATCH (Al:Person {name:"Al Pacino"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(coActors),
+      (coActors)-[:ACTED_IN]->(m2)<-[:ACTED_IN]-(AudreyT:Person {name:"Audrey Tautou"})
+RETURN distinct coActors.name as Debe_conocer
+
+//8. ¿Qué actores que han producido y actuado en la misma película?
+MATCH(v:Person)-[a:ACTED_IN]->(m:Movie)<-[w:PRODUCED]-(p:Person) RETURN p as Actuar_y_Producir
+

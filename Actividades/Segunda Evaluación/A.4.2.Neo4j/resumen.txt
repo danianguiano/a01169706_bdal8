@@ -1,0 +1,41 @@
+start n= node(*) return n
+create(p:Basura)
+Create(p:Vehiculos{marca:"nissan"})
+
+Create(p:Vehiculos{marca:"vm"})
+match(v:Vehiculos{marca:"nissan"}) return v
+match(v:Vehiculos) return v
+match(v:Vehiculos) return v limit 1
+
+match(v:Vehiculos) where v.marca="vm"return v
+create((p:Vehiculos{marca:"nissan"})-[c:Costos{cuesta:100}]->(q:Vehiculos{marca:"vm"}))
+
+//Borrar
+match(c:Vehiculos)-[v:Costos]->(d:Vehiculos) delete c,v,d
+match()-[v:Costos]->() delete v
+
+//Crear relación
+match (v:Vehiculos),(w:Vehiculos) where v.marca="nissan" and w.marca="vm" create(v)-[s:MismoCosto{cosrto:100}]->(w)
+
+match()-[v:MismoCosto]-() return v
+
+//todas las relaciones
+match()-[v]-() return v
+
+//Peliculas que actuo tom hanks
+match(v:Person{name:"Tom Hanks"})-[a:ACTED_IN]->(m:Movie) return m
+
+//cuantas peliculas actuo tom hanks
+match(v:Person{name:"Tom Hanks"})-[a:ACTED_IN]->(m:Movie) return count(m)
+
+//actores que actuaron en las mismas películas que tom hanks
+match(v:Person{name:"Tom Hanks"})-[a:ACTED_IN]->(m:Movie)<-[w:ACTED_IN]-(p:Person) return p
+
+//cuantos actores actuaron en las mismas películas que tom hanks
+match(v:Person{name:"Tom Hanks"})-[a:ACTED_IN]->(m:Movie)<-[w:ACTED_IN]-(p:Person) return count(p)
+
+match(v:Person{name:"Tom Hanks"})-[*1..4]-(m:Person) return m
+
+
+//camino mas corto
+match p=shortestPath((bacon:Person{name:"Al Pacino"})-[*]-(meg:Person{name:"Tom Cruise"})) return p
